@@ -572,20 +572,20 @@ function UserDashboard() {
     height: auto; /* Let it grow naturally */
   }
   .status-sidebar {
-    width: 98%;
+    width: 97%;
     height: auto;
     display: flex;
     flex-wrap: wrap;
-    padding: 5px;
-    border-radius: 0px 0px 0 0; /* Rounded top corners */
+    padding: 12px;
+    border-radius: 0px 0px 10px 10px; /* Rounded top corners */
     box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
     margin-bottom: 16px;
   }
   .quiz-section {
     flex: none;
-    width: 98%;
-    padding: 5px;
-    border-radius: 0 0 0px 0px; /* Rounded bottom corners */
+    width: 97%;
+    padding: 12px;
+    border-radius: 10px 10px 0px 0px; /* Rounded bottom corners */
   }
   .status-grid {
     justify-content: center; /* center the boxes on small screen */
