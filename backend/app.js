@@ -15,12 +15,13 @@ const JWT_SECRET = 'your-secret-key'; // Use .env in production
 
 // PostgreSQL setup
 const client = new Client({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'quizdb',
-  password: 'jaishreeram',
-  port: 5432,
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
 });
+
 
 client.connect()
   .then(() => console.log('✅ Connected to PostgreSQL'))
