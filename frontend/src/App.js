@@ -22,7 +22,7 @@ const ProtectedUserRoute = ({ children }) => {
 
 function App() {
   const [message, setMessage] = useState('');
-  const backendUrl = 'http://localhost:3000'; // Set your backend URL here
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
 
   return (
     <Router>
