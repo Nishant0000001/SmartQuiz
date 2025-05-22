@@ -27,7 +27,7 @@ function UserDashboard() {
 
   // Fetch questions
   useEffect(() => {
-    axios.get('http://localhost:3000/quiz')
+    axios.get('https://smartquiz-t8un.onrender.com/quiz')
       .then(res => {
         setQuestions(res.data);
         const initialTimers = {};
@@ -133,11 +133,11 @@ function UserDashboard() {
     clearInterval(timerRef.current);
 
     try {
-      await axios.post('http://localhost:3000/submit-quiz', {
-        user_id: userId,
-        score: calculatedScore,
-        responses,
-      });
+      await axios.post('https://smartquiz-t8un.onrender.com/submit-quiz', {
+  user_id: userId,
+  score: calculatedScore,
+  responses,
+});
       console.log('✅ Quiz submitted');
     } catch (err) {
       console.error('❌ Failed to submit quiz:', err);
