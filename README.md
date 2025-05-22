@@ -61,7 +61,7 @@ bash
 git clone https://github.com/Nishant0000001/SmartQuiz.git
 cd SmartQuiz
 
-###2. Set up MySQL Database
+### 2. Setup Postgres Sql Database
 Create a database and import database.sql
 
 Update credentials in backend config
