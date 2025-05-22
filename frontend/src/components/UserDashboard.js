@@ -572,11 +572,11 @@ function UserDashboard() {
     height: auto; /* Let it grow naturally */
   }
   .status-sidebar {
-    width: 95%;
+    width: 100%;
     height: auto;
     display: flex;
     flex-wrap: wrap;
-    padding: 24px 16px;
+    padding: 0px 0px;
     border-radius: 0px 0px 0 0; /* Rounded top corners */
     box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
     margin-bottom: 16px;
@@ -584,7 +584,7 @@ function UserDashboard() {
   .quiz-section {
     flex: none;
     width: 100%;
-    padding: 16px 24px;
+    padding: 0px 0px;
     border-radius: 0 0 0px 0px; /* Rounded bottom corners */
   }
   .status-grid {
