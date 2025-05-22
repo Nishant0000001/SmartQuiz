@@ -565,6 +565,34 @@ function UserDashboard() {
           color: #4a5568;
           font-weight: 600;
         }
+
+        @media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+    height: auto; /* Allow content to expand */
+  }
+  .quiz-section {
+    border-radius: 16px 16px 0 0;
+    padding: 20px;
+  }
+  .status-sidebar {
+    flex: none;
+    width: 100%;
+    border-radius: 0 0 16px 16px;
+    padding: 20px 32px;
+    margin-top: 16px;
+    box-shadow: 0 -4px 12px rgb(0 0 0 / 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .status-grid {
+    justify-content: center;
+  }
+  .submit-btn, .logout-btn {
+    width: 100%;
+    margin-top: 12px;
+  }
       `}</style>
     </div>
   );
