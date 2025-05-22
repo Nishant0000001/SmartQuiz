@@ -6,6 +6,8 @@ function SetPasswordForm({ backendUrl, setMessage }) {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const apiBase = backendUrl || process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+
   const handleSetPassword = async (e) => {
     e.preventDefault();
     setErrorMessage('');
@@ -15,7 +17,7 @@ function SetPasswordForm({ backendUrl, setMessage }) {
     }
 
     try {
-      const response = await axios.post(`${backendUrl}/set-password`, {
+      const response = await axios.post(`${apiBase}/set-password`, {
         user_id: userId.trim(),
         password: password.trim(),
       });
@@ -25,7 +27,7 @@ function SetPasswordForm({ backendUrl, setMessage }) {
         setUserId('');
         setPassword('');
       } else {
-        setErrorMessage('Failed to set password.');
+        setErrorMessage(response.data.message || 'Failed to set password.');
       }
     } catch (error) {
       console.error('Error setting password:', error);
@@ -34,36 +36,13 @@ function SetPasswordForm({ backendUrl, setMessage }) {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: 480,
-        margin: 'auto',
-        backgroundColor: '#f0fff4',
-        padding: 30,
-        borderRadius: 15,
-        boxShadow: '0 8px 20px rgba(72, 187, 120, 0.2)',
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      }}
-    >
-
+    <div style={containerStyle}>
       <form onSubmit={handleSetPassword} noValidate>
         <div style={{ marginBottom: 22 }}>
-          <label
-            htmlFor="userId"
-            style={{
-              display: 'block',
-              fontWeight: 600,
-              marginBottom: 8,
-              color: '#276749',
-              userSelect: 'none',
-            }}
-          >
-            User ID
-          </label>
+          <label htmlFor="userId" style={labelStyle}>User ID</label>
           <input
             type="text"
             id="userId"
-            name="userId"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
             placeholder="Enter User ID"
@@ -74,22 +53,10 @@ function SetPasswordForm({ backendUrl, setMessage }) {
         </div>
 
         <div style={{ marginBottom: 22 }}>
-          <label
-            htmlFor="password"
-            style={{
-              display: 'block',
-              fontWeight: 600,
-              marginBottom: 8,
-              color: '#276749',
-              userSelect: 'none',
-            }}
-          >
-            Password
-          </label>
+          <label htmlFor="password" style={labelStyle}>Password</label>
           <input
             type="password"
             id="password"
-            name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter Password"
@@ -100,22 +67,7 @@ function SetPasswordForm({ backendUrl, setMessage }) {
         </div>
 
         {errorMessage && (
-          <div
-            role="alert"
-            style={{
-              backgroundColor: '#fed7d7',
-              color: '#742a2a',
-              borderRadius: 8,
-              padding: '12px 15px',
-              marginBottom: 20,
-              fontWeight: '600',
-              textAlign: 'center',
-              userSelect: 'none',
-              boxShadow: 'inset 0 0 10px rgba(197, 48, 48, 0.3)',
-            }}
-          >
-            {errorMessage}
-          </div>
+          <div role="alert" style={errorStyle}>{errorMessage}</div>
         )}
 
         <button
@@ -131,9 +83,18 @@ function SetPasswordForm({ backendUrl, setMessage }) {
   );
 }
 
+const containerStyle = {
+  maxWidth: 480,
+  margin: 'auto',
+  backgroundColor: '#f0fff4',
+  padding: 30,
+  borderRadius: 15,
+  boxShadow: '0 8px 20px rgba(72, 187, 120, 0.2)',
+  fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+};
+
 const inputStyle = {
   width: '100%',
-  maxWidth: 435,
   padding: '14px 16px',
   fontSize: 16,
   fontWeight: 600,
@@ -144,13 +105,33 @@ const inputStyle = {
   boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
 };
 
+const labelStyle = {
+  display: 'block',
+  fontWeight: 600,
+  marginBottom: 8,
+  color: '#276749',
+  userSelect: 'none',
+};
+
+const errorStyle = {
+  backgroundColor: '#fed7d7',
+  color: '#742a2a',
+  borderRadius: 8,
+  padding: '12px 15px',
+  marginBottom: 20,
+  fontWeight: 600,
+  textAlign: 'center',
+  userSelect: 'none',
+  boxShadow: 'inset 0 0 10px rgba(197, 48, 48, 0.3)',
+};
+
 const buttonStyle = {
-  width: '99%',
+  width: '100%',
   padding: '14px 0',
   backgroundColor: '#2f855a',
   color: 'white',
   fontSize: 20,
-  fontWeight: '700',
+  fontWeight: 700,
   border: 'none',
   borderRadius: 10,
   cursor: 'pointer',
