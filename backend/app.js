@@ -11,6 +11,10 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('Welcome to SmartQuiz Backend API!');
+});
+
 const JWT_SECRET = 'your-secret-key'; // Use .env in production
 
 // PostgreSQL setup
