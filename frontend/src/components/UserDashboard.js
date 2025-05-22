@@ -333,12 +333,14 @@ function UserDashboard() {
                 className={`option-label ${answers[currentQuestion.id] === option ? 'selected' : ''}`}
               >
                 <input
-                  type="radio"
-                  name={`question_${currentQuestion.id}`}
-                  value={option}
-                  checked={answers[currentQuestion.id] === option}
-                  onChange={() => handleOptionChange(currentQuestion.id, option)}
-                />
+                   type="radio"
+                   name={`question_${currentQuestion.id}`}
+                   value={option}
+                   checked={answers[currentQuestion.id] === option}
+                   onChange={() => handleOptionChange(currentQuestion.id, option)}
+                   disabled={timeRemaining[currentQuestion.id] === 0} // ⛔ Disable when timer is 0
+                 />
+
                 <span>{option}. {optionText}</span>
               </label>
             );
