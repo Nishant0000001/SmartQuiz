@@ -55,35 +55,35 @@ SmartQuiz/
 
 ## 🚀 Getting Started
 
-**### 1. Clone the Repository**
+### 1. Clone the Repository
 
 bash
 git clone https://github.com/Nishant0000001/SmartQuiz.git
 cd SmartQuiz
 
-**###2. Set up MySQL Database**
+###2. Set up MySQL Database
 Create a database and import database.sql
 
 Update credentials in backend config
 
-**###3. Build & Run C Executable**
+###3. Build & Run C Executable
 If you want to compile quiz.c manually:
 gcc -o quiz quiz.c $(/mingw64/bin/pg_config --cflags) -L/mingw64/lib -lpq
 
-**###4. Start Backend**
+###4. Start Backend
 bash
 cd server
 npm install
 npm start
 
-**###5. Start Frontend**
+###5. Start Frontend
 bash
 cd client
 npm install
 npm start
 
-**###Contributors**
+###Contributors
 Nishant Bijalwan - Project Author & Developer
 
-**###Support**
+###Support
 If you find this project helpful, give it a ⭐ on GitHub!
