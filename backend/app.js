@@ -10,7 +10,7 @@ const port = 3000;
 
 // Allow only your frontend origin
 app.use(cors({
-  origin: 'https://smart-quiz-kk76.vercel.app',
+  origin: 'https://smart-quiz-ojg7.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
