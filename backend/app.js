@@ -1,7 +1,7 @@
 const express = require('express');
 const { Client } = require('pg');
 const { exec } = require('child_process');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
