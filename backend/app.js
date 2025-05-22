@@ -8,7 +8,19 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = 3000;
 
-app.use(cors());
+const cors = require('cors');
+
+// Allow only your frontend origin
+app.use(cors({
+  origin: 'https://smart-quiz-kk76.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+}));
+
+// Or if you want to allow all origins (less secure, use for testing only)
+// app.use(cors());
+
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
