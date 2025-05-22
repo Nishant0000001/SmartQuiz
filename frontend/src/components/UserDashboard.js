@@ -572,27 +572,27 @@ function UserDashboard() {
     height: auto; /* Let it grow naturally */
   }
   .status-sidebar {
-    width: 100%;
+    width: 95%;
     height: auto;
     display: flex;
     flex-wrap: wrap;
-    padding: 16px 24px;
-    border-radius: 16px 16px 0 0; /* Rounded top corners */
+    padding: 24px 16px;
+    border-radius: 0px 0px 0 0; /* Rounded top corners */
     box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
     margin-bottom: 16px;
   }
   .quiz-section {
     flex: none;
     width: 100%;
-    padding: 24px 16px;
-    border-radius: 0 0 16px 16px; /* Rounded bottom corners */
+    padding: 16px 24px;
+    border-radius: 0 0 0px 0px; /* Rounded bottom corners */
   }
   .status-grid {
     justify-content: center; /* center the boxes on small screen */
   }
   .submit-btn,
   .logout-btn {
-    width: 100%;
+    width: 95%;
     margin-top: 12px;
     padding: 14px;
   }
