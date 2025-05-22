@@ -1,0 +1,6 @@
+1,MCQ,What color is the sky?,Red,Green,Blue,Yellow,30,Blue
+2,MCQ,Which is the largest continent?,Asia,Africa,Europe,Australia,30,Asia
+3,MCQ,What color is the sky?,pink,Green,Blue,Yellow,30,Blue
+4,MCQ,What color is the sky?,brown,Green,Blue,Yellow,30,Blue
+5,MCQ,What color is the sky?,yellow,Green,Blue,Yellow,30,Blue
+3,WRITTEN,What is the capital of France?,,,, ,20,Paris
