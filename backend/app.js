@@ -8,26 +8,25 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// ✅ Allow Vercel frontend
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://smart-quiz-ojg7.vercel.app'
+  'https://smart-quiz-mu.vercel.app'
 ];
 
 app.use(cors({
-  origin: function(origin, callback) {
-    console.log('CORS origin:', origin); // Add this line to debug origin
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.indexOf(origin) !== -1) {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
 }));
 
-
+// ✅ Allow preflight requests
+app.options('*', cors());
 
 app.use(express.json());
 
