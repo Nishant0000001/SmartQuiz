@@ -25,9 +25,6 @@ app.use(cors({
   credentials: true,
 }));
 
-// ✅ Allow preflight requests
-app.options('*', cors());
-
 app.use(express.json());
 
 app.get('/', (req, res) => {
