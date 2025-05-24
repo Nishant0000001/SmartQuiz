@@ -8,10 +8,26 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 3000;
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://smart-quiz-ojg7.vercel.app'
+];
+
 app.use(cors({
-  origin: '*',
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like Postman or curl)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      // Origin allowed — reflect it back
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
+
 
 app.use(express.json());
 
