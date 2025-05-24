@@ -467,7 +467,7 @@ function AdminPage() {
         >
           🔐 Set User Password
         </h2>
-        <SetPasswordForm backendUrl="http://localhost:3000" setMessage={setMessage} />
+        <SetPasswordForm backendUrl="'https://smartquiz-t8un.onrender.com'" setMessage={setMessage} />
       </section>
     )}
 
