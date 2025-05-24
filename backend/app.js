@@ -15,11 +15,10 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (like Postman or curl)
+    console.log('CORS origin:', origin); // Add this line to debug origin
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.indexOf(origin) !== -1) {
-      // Origin allowed — reflect it back
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -27,6 +26,7 @@ app.use(cors({
   },
   credentials: true
 }));
+
 
 
 app.use(express.json());
