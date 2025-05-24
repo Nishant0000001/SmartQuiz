@@ -6,7 +6,7 @@ function SetPasswordForm({ backendUrl, setMessage }) {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const apiBase = 'https://smartquiz-backend.onrender.com' || 'http://localhost:3000';
+  const apiBase = 'https://smartquiz-backend.onrender.com' ;
 
   const handleSetPassword = async (e) => {
     e.preventDefault();
