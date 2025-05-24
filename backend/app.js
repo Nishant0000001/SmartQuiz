@@ -8,12 +8,6 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// ✅ Correct CORS setup for Vercel frontend
-const allowedOrigins = [
-  'http://localhost:3000', 
-  'https://smart-quiz-ojg7.vercel.app'  // add your deployed frontend URL here
-];
-
 app.use(cors({
   origin: '*',
   credentials: true
