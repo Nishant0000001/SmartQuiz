@@ -26,13 +26,7 @@ app.use(cors({
   },
   credentials: true // if you send cookies/auth headers
 }));
-Or a simple version to allow all (not recommended for production, but quick test):
-js
-Copy
-Edit
-app.use(cors({
-  origin: '*'
-}));
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
