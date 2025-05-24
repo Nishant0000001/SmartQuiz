@@ -10,7 +10,6 @@ const port = process.env.PORT || 3000;
 
 // ✅ Allow Vercel frontend
 const allowedOrigins = [
-  'http://localhost:3000',
   'https://smart-quiz-mu.vercel.app'
 ];
 
