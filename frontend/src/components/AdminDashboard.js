@@ -28,7 +28,7 @@ function AdminPage() {
 
   const fetchQuestions = async () => {
     try {
-      const res = await axios.get(${backendUrl}/quiz);
+      const res = await axios.get(`${backendUrl}/quiz`);
       setQuestions(res.data);
     } catch (err) {
       console.error('Error fetching questions:', err);
@@ -37,7 +37,7 @@ function AdminPage() {
 
   const fetchScores = async () => {
     try {
-      const res = await axios.get(${backendUrl}/scores);
+      const res = await axios.get(`${backendUrl}/scores`);
       setScores(res.data);
     } catch (err) {
       console.error('Error fetching scores:', err);
@@ -47,7 +47,7 @@ function AdminPage() {
   const handleAddQuestion = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(${backendUrl}/add-question, formData);
+      const res = await axios.post(`${backendUrl}/add-question`, formData);
       setMessage(res.data);
       setFormData({
         type: '',
@@ -69,7 +69,7 @@ function AdminPage() {
   const handleDeleteQuestion = async () => {
     if (!questionIdToDelete) return;
     try {
-      const res = await axios.delete(${backendUrl}/delete-quiz/${questionIdToDelete});
+      const res = await axios.delete(`${backendUrl}/delete-quiz/${questionIdToDelete}`);
       setMessage(res.data);
       setQuestionIdToDelete('');
       fetchQuestions();
