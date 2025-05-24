@@ -4,16 +4,15 @@ const { exec } = require('child_process');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 // ✅ Correct CORS setup for Vercel frontend
 app.use(cors({
-  origin: 'https://smart-quiz-ojg7.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
+  origin: ["http://localhost:3000", "https://smart-quiz-ojg7.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 
 app.use(express.json());
