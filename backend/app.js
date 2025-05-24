@@ -8,16 +8,26 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = 3000;
 
-// Allow only your frontend origin
+// ✅ Allow multiple trusted origins (Vercel + localhost)
+const allowedOrigins = [
+  'https://smart-quiz-ojg7.vercel.app',
+  'http://localhost:3000'
+];
+
 app.use(cors({
-  origin: 'https://smart-quiz-ojg7.vercel.app',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
 
-// Or if you want to allow all origins (less secure, use for testing only)
-// app.use(cors());
-
+// ✅ Handle preflight requests
+app.options('*', cors());
 
 app.use(express.json());
 
@@ -25,7 +35,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to SmartQuiz Backend API!');
 });
 
-const JWT_SECRET = 'your-secret-key'; // Use .env in production
+const JWT_SECRET = 'your-secret-key'; // Replace with process.env.JWT_SECRET in production
 
 // PostgreSQL setup
 const client = new Client({
@@ -38,7 +48,6 @@ const client = new Client({
     rejectUnauthorized: false
   }
 });
-
 
 client.connect()
   .then(() => console.log('✅ Connected to PostgreSQL'))
@@ -210,7 +219,7 @@ app.get('/scores', async (req, res) => {
   }
 });
 
-// ✅ POST: Submit user score
+// Submit user score
 app.post('/submit-quiz', async (req, res) => {
   const { user_id, score } = req.body;
 
