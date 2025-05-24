@@ -467,7 +467,7 @@ function AdminPage() {
         >
           🔐 Set User Password
         </h2>
-        <SetPasswordForm backendUrl = 'process.env.REACT_APP_BACKEND_URL' setMessage={setMessage} />
+        <SetPasswordForm backendUrl = 'https://smartquiz-t8un.onrender.com' setMessage={setMessage} />
       </section>
     )}
 
