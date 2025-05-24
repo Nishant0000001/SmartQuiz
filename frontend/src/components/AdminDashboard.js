@@ -19,7 +19,7 @@ function AdminPage() {
   const [message, setMessage] = useState('');
   const [activeTab, setActiveTab] = useState('add');
 
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+  const backendUrl = 'https://smartquiz-t8un.onrender.com' || 'http://localhost:3000';
 
   useEffect(() => {
     fetchQuestions();
