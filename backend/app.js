@@ -9,12 +9,30 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // ✅ Correct CORS setup for Vercel frontend
-app.use(cors({
-  origin: ["http://localhost:3000", "https://smart-quiz-ojg7.vercel.app"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+const allowedOrigins = [
+  'http://localhost:3000', 
+  'https://smart-quiz-ojg7.vercel.app'  // add your deployed frontend URL here
+];
 
+app.use(cors({
+  origin: function(origin, callback){
+    // allow requests with no origin like mobile apps or curl
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true // if you send cookies/auth headers
+}));
+Or a simple version to allow all (not recommended for production, but quick test):
+js
+Copy
+Edit
+app.use(cors({
+  origin: '*'
+}));
 app.use(express.json());
 
 app.get('/', (req, res) => {
