@@ -19,7 +19,7 @@ function AdminPage() {
   const [message, setMessage] = useState('');
   const [activeTab, setActiveTab] = useState('add');
 
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const backendUrl = 'https://smartquiz-t8un.onrender.com';
 
   useEffect(() => {
     fetchQuestions();
@@ -467,7 +467,7 @@ function AdminPage() {
         >
           🔐 Set User Password
         </h2>
-        <SetPasswordForm backendUrl = "https://smartquiz-t8un.onrender.com" setMessage={setMessage} />
+        <SetPasswordForm backendUrl="http://localhost:3000" setMessage={setMessage} />
       </section>
     )}
 
