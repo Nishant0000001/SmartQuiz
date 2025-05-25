@@ -1,61 +1,46 @@
 const express = require('express');
 const { Client } = require('pg');
 const { exec } = require('child_process');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 
-// ✅ Allow Vercel frontend
-const allowedOrigins = [
-  'smart-quiz-82dk.vercel.app'
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));
-
+app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Welcome to SmartQuiz Backend API!');
-});
+const JWT_SECRET = 'your-secret-key'; // Use .env in production
 
-const JWT_SECRET = 'your-secret-key'; // 🔐 Use .env in production
-
-// ✅ PostgreSQL setup
+// PostgreSQL setup
 const client = new Client({
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT,
+  user: 'quizdb_ytlv_user',
+  host: 'dpg-d0nmsl49c44c738gjp20-a.singapore-postgres.render.com',
+  database: 'quizdb_ytlv',
+  password: 'XXTfvJf2OaOiOoIlGfIOQuO0GiclsNvx',
+  port: 5432,
   ssl: {
     rejectUnauthorized: false
   }
 });
 
 client.connect()
-  .then(() => console.log('✅ Connected to PostgreSQL'))
+  .then(() => console.log('✅ Connected to Render PostgreSQL'))
   .catch(err => console.error('❌ Connection error', err.stack));
 
 /* ---------------- ADMIN ROUTES ---------------- */
 
 app.post('/admin-login', async (req, res) => {
   const { username, password } = req.body;
-  try {
-    const result = await client.query('SELECT * FROM admin_users WHERE username = $1', [username]);
 
-    if (result.rows.length === 0 || !(await bcrypt.compare(password, result.rows[0].password))) {
+  try {
+    const result = await client.query(
+      'SELECT * FROM admin_users WHERE username = $1 AND password = $2',
+      [username, password]
+    );
+
+    if (result.rows.length === 0) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
 
@@ -69,6 +54,7 @@ app.post('/admin-login', async (req, res) => {
 
 /* ---------------- QUIZ ROUTES ---------------- */
 
+// Get all quiz questions
 app.get('/quiz', async (req, res) => {
   try {
     const result = await client.query('SELECT * FROM quiz_questions ORDER BY id ASC');
@@ -79,8 +65,9 @@ app.get('/quiz', async (req, res) => {
   }
 });
 
+// Run quiz.exe logic
 app.get('/run-quiz', (req, res) => {
-  exec('./quiz.exe', (err, stdout, stderr) => {
+  exec('quiz.exe', (err, stdout, stderr) => {
     if (err || stderr) {
       console.error('❌ Error running quiz.exe:', err || stderr);
       return res.status(500).send('Error running quiz logic');
@@ -91,17 +78,17 @@ app.get('/run-quiz', (req, res) => {
 
 /* ---------------- QUESTION MANAGEMENT ---------------- */
 
+// Add a new quiz question
 app.post('/add-question', async (req, res) => {
   const { type, question, option_a, option_b, option_c, option_d, correct_answer, timer } = req.body;
 
   try {
-    const result = await client.query(
-      `INSERT INTO quiz_questions
-        (type, question, option_a, option_b, option_c, option_d, correct_answer, timer)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-       RETURNING id;`,
-      [type, question, option_a, option_b, option_c, option_d, correct_answer, timer]
-    );
+    const result = await client.query(`
+      INSERT INTO quiz_questions
+      (type, question, option_a, option_b, option_c, option_d, correct_answer, timer)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      RETURNING id;
+    `, [type, question, option_a, option_b, option_c, option_d, correct_answer, timer]);
 
     res.send(`✅ Question added successfully with ID: ${result.rows[0].id}`);
   } catch (err) {
@@ -110,6 +97,7 @@ app.post('/add-question', async (req, res) => {
   }
 });
 
+// Delete a quiz question
 app.delete('/delete-quiz/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -135,6 +123,7 @@ app.delete('/delete-quiz/:id', async (req, res) => {
 
 /* ---------------- USER MANAGEMENT ---------------- */
 
+// Create or update user password
 app.post('/set-password', async (req, res) => {
   const { user_id, password } = req.body;
 
@@ -159,6 +148,7 @@ app.post('/set-password', async (req, res) => {
   }
 });
 
+// User login
 app.post('/user-login', async (req, res) => {
   const { userId, password } = req.body;
 
@@ -176,16 +166,16 @@ app.post('/user-login', async (req, res) => {
   }
 });
 
+// User dashboard - get quiz history or info
 app.get('/user-dashboard/:user_id', async (req, res) => {
   const { user_id } = req.params;
 
   try {
-    const result = await client.query(
-      `SELECT * FROM user_scores
-       WHERE user_id = $1
-       ORDER BY score_date DESC`,
-      [user_id]
-    );
+    const result = await client.query(`
+      SELECT * FROM user_scores
+      WHERE user_id = $1
+      ORDER BY date_taken DESC
+    `, [user_id]);
 
     res.json(result.rows);
   } catch (err) {
@@ -196,6 +186,7 @@ app.get('/user-dashboard/:user_id', async (req, res) => {
 
 /* ---------------- SCORES ---------------- */
 
+// Fetch all user scores
 app.get('/scores', async (req, res) => {
   try {
     const result = await client.query('SELECT * FROM user_scores ORDER BY score_date DESC');
@@ -206,6 +197,7 @@ app.get('/scores', async (req, res) => {
   }
 });
 
+// ✅ POST: Submit user score
 app.post('/submit-quiz', async (req, res) => {
   const { user_id, score } = req.body;
 
@@ -216,8 +208,7 @@ app.post('/submit-quiz', async (req, res) => {
   try {
     const result = await client.query(
       `INSERT INTO user_scores (user_id, score, score_date)
-       VALUES ($1, $2, NOW())
-       RETURNING score_id;`,
+       VALUES ($1, $2, NOW()) RETURNING score_id`,
       [user_id, score]
     );
 
