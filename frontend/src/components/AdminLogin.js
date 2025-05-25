@@ -7,15 +7,32 @@ function AdminLogin() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (adminID === 'admin' && password === 'admin123') {
-      localStorage.setItem('adminToken', 'validToken');
-      navigate('/admin');
+  const handleLogin = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch('https://smartquiz-t8un.onrender.com/admin-login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username: adminID, password }), // Match backend keys
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem('adminToken', data.token);
+      navigate('/admin'); // Redirect to Admin Panel
     } else {
-      setError('❌ Invalid credentials');
+      setError('❌ ' + data.message);
     }
-  };
+  } catch (err) {
+    console.error('❌ Login error:', err);
+    setError('❌ Server error. Please try again.');
+  }
+};
+
 
   return (
     <div
