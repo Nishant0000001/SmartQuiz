@@ -32,24 +32,37 @@ client.connect()
 /* ---------------- ADMIN ROUTES ---------------- */
 
 app.post('/admin-login', async (req, res) => {
-  const { username, password } = req.body;
 
-  try {
-    const result = await client.query(
-      'SELECT * FROM admin_users WHERE username = $1 AND password = $2',
-      [username, password]
-    );
+    const { username, password } = req.body;
 
-    if (result.rows.length === 0) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+    try {
+
+        if (username === "admin" && password === "12345") {
+
+            const token = jwt.sign(
+                { username: "admin" },
+                JWT_SECRET,
+                { expiresIn: '1h' }
+            );
+
+            return res.json({
+                message: "Login successful",
+                token
+            });
+
+        } else {
+
+            return res.status(401).json({
+                message: "Invalid username or password"
+            });
+        }
+
+    } catch (err) {
+
+        console.error('Admin login error:', err);
+
+        res.status(500).send('Server error');
     }
-
-    const token = jwt.sign({ username: result.rows[0].username }, JWT_SECRET, { expiresIn: '1h' });
-    res.json({ message: 'Login successful', token });
-  } catch (err) {
-    console.error('❌ Admin login error:', err);
-    res.status(500).send('Server error');
-  }
 });
 
 /* ---------------- QUIZ ROUTES ---------------- */
